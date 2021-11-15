@@ -49,6 +49,7 @@
     <Content Include="Assets\FilesOpenDialog\CustomOpenDialogARM64.dll" />
   </ItemGroup>
   <!-- Workaround for an issue with the Microsoft.Management.Infrastructure nuget package -->
+  <!-- We do not handle arm64 here because it is exempt from the issue. (ARM64 uses the following RID: win-arm64, vs win10-x86 and win10-x64) -->
   <ItemGroup Condition="'$(Platform)' == 'x86'">
     <Content Include="runtimes\win10-x86\**" DestinationFolder="$(OutDir)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" Link="$(OutDir)\%(Filename)%(Extension)" />
   </ItemGroup>
