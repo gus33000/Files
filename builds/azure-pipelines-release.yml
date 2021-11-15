@@ -163,7 +163,7 @@ jobs:
       solution: '**/*.wapproj'
       platform: 'x86'
       configuration: '$(buildConfiguration)'
-      msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
+      msbuildArguments: '/m /t:build;_GenerateAppxPackage /restore /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload /p:PublishSingleFile=true /p:PublishTrimmed=false'
       maximumCpuCount: true
     
   - task: CopyFiles@2
