@@ -5,7 +5,7 @@
     <RootNamespace>FilesFullTrust</RootNamespace>
     <AssemblyName>FilesFullTrust</AssemblyName>
     <Platforms>x86;x64;arm64</Platforms>
-    <RuntimeIdentifiers>win-arm64;win10-x86;win10-x64</RuntimeIdentifiers>
+    <RuntimeIdentifiers>win-arm64;win-x86;win-x64</RuntimeIdentifiers>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -37,16 +37,23 @@
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
     <Content Include="Assets\FilesOpenDialog\SetFilesAsDefault.reg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <ContentToOutputDirectory>Always</ContentToOutputDirectory>
     </Content>
     <Content Include="Assets\FilesOpenDialog\UnsetFilesAsDefault.reg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <ContentToOutputDirectory>Always</ContentToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\FilesOpenDialog\CustomOpenDialog32.dll" />
     <Content Include="Assets\FilesOpenDialog\CustomOpenDialog64.dll" />
     <Content Include="Assets\FilesOpenDialog\CustomOpenDialogARM64.dll" />
+  </ItemGroup>
+  <!-- Workaround for an issue with the Microsoft.Management.Infrastructure nuget package -->
+  <ItemGroup Condition="'$(Platform)' == 'x86'">
+    <Content Include="runtimes\win10-x86\**" DestinationFolder="$(OutDir)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" Link="$(OutDir)\%(Filename)%(Extension)" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(Platform)' == 'x64'">
+    <Content Include="runtimes\win10-x64\**" DestinationFolder="$(OutDir)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" Link="$(OutDir)\%(Filename)%(Extension)" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="FolderNames.cs" />
