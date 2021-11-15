@@ -60,7 +60,7 @@ jobs:
   - task: UseDotNet@2
     inputs:
       packageType: sdk
-      version: 6.x
+      version: 5.x
 
   - task: NuGetToolInstaller@1
 
@@ -150,7 +150,7 @@ jobs:
   - task: UseDotNet@2
     inputs:
       packageType: sdk
-      version: 6.x
+      version: 5.x
 
   - task: NuGetToolInstaller@1
 
