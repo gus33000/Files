@@ -1,5 +1,5 @@
 ﻿using Files.Common;
-using Newtonsoft.Json;
+using System.Text.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -432,7 +432,7 @@ namespace FilesFullTrust
             {
                 var message = new Dictionary<string, object>(valueSet);
                 message.Add("RequestID", requestID);
-                var serialized = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
+                var serialized = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message));
                 await pipe.WriteAsync(serialized, 0, serialized.Length);
             });
         }

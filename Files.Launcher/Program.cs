@@ -1,6 +1,6 @@
 using Files.Common;
 using FilesFullTrust.MessageHandlers;
-using Newtonsoft.Json;
+using System.Text.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -157,7 +157,7 @@ namespace FilesFullTrust
                 {
                     var message = info.Message.ToString().TrimEnd('\0');
 
-                    OnConnectionRequestReceived(connection, JsonConvert.DeserializeObject<Dictionary<string, object>>(message));
+                    OnConnectionRequestReceived(connection, JsonSerializer.Deserialize<Dictionary<string, object>>(message));
 
                     // Begin a new reading operation
                     var nextInfo = (Buffer: new byte[connection.InBufferSize], Message: new StringBuilder());

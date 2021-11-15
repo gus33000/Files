@@ -1,6 +1,6 @@
 ﻿using Files.Common;
 using FilesFullTrust.Helpers;
-using Newtonsoft.Json;
+using System.Text.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -126,7 +126,7 @@ namespace FilesFullTrust.MessageHandlers
                 {
                     using var folderItem = new ShellItem(e.FullPath);
                     var shellFileItem = ShellFolderExtensions.GetShellFileItem(folderItem);
-                    response["Item"] = JsonConvert.SerializeObject(shellFileItem);
+                    response["Item"] = JsonSerializer.Serialize(shellFileItem);
                 }
                 // Send message to UWP app to refresh items
                 await Win32API.SendMessageAsync(connection, response);

@@ -1,7 +1,7 @@
 ﻿using Files.Common;
 using FilesFullTrust.Helpers;
 using Microsoft.Win32;
-using Newtonsoft.Json;
+using System.Text.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,7 +32,7 @@ namespace FilesFullTrust.MessageHandlers
                     var cloudDrives = await CloudDrivesDetector.DetectCloudDrives();
                     await Win32API.SendMessageAsync(connection, new ValueSet()
                     {
-                        { "Drives", JsonConvert.SerializeObject(cloudDrives) }
+                        { "Drives", JsonSerializer.Serialize(cloudDrives) }
                     }, message.Get("RequestID", (string)null));
                     break;
             }

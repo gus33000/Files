@@ -1,5 +1,5 @@
 ﻿using Files.Common;
-using Newtonsoft.Json;
+using System.Text.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -42,7 +42,7 @@ namespace FilesFullTrust.MessageHandlers
                     }
                     else if (message.ContainsKey("ApplicationList"))
                     {
-                        var applicationList = JsonConvert.DeserializeObject<IEnumerable<string>>((string)message["ApplicationList"]);
+                        var applicationList = JsonSerializer.Deserialize<IEnumerable<string>>((string)message["ApplicationList"]);
                         HandleApplicationsLaunch(applicationList, message);
                     }
                     break;

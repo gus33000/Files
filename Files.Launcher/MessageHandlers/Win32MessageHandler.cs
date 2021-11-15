@@ -1,7 +1,7 @@
 ﻿using Files.Common;
 using FilesFullTrust.Helpers;
 using Microsoft.Win32;
-using Newtonsoft.Json;
+using System.Text.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -114,7 +114,7 @@ namespace FilesFullTrust.MessageHandlers
                         }
                         return flc;
                     });
-                    responseEnum.Add("Enumerate", JsonConvert.SerializeObject(folderContentsList));
+                    responseEnum.Add("Enumerate", JsonSerializer.Serialize(folderContentsList));
                     await Win32API.SendMessageAsync(connection, responseEnum, message.Get("RequestID", (string)null));
                     break;
 
@@ -122,7 +122,7 @@ namespace FilesFullTrust.MessageHandlers
                     var iconInfos = Win32API.ExtractIconsFromDLL((string)message["iconFile"]);
                     await Win32API.SendMessageAsync(connection, new ValueSet()
                     {
-                        { "IconInfos", JsonConvert.SerializeObject(iconInfos) },
+                        { "IconInfos", JsonSerializer.Serialize(iconInfos) },
                     }, message.Get("RequestID", (string)null));
                     break;
 
@@ -134,10 +134,10 @@ namespace FilesFullTrust.MessageHandlers
                     break;
 
                 case "GetSelectedIconsFromDLL":
-                    var selectedIconInfos = Win32API.ExtractSelectedIconsFromDLL((string)message["iconFile"], JsonConvert.DeserializeObject<List<int>>((string)message["iconIndexes"]), Convert.ToInt32(message["requestedIconSize"]));
+                    var selectedIconInfos = Win32API.ExtractSelectedIconsFromDLL((string)message["iconFile"], JsonSerializer.Deserialize<List<int>>((string)message["iconIndexes"]), Convert.ToInt32(message["requestedIconSize"]));
                     await Win32API.SendMessageAsync(connection, new ValueSet()
                     {
-                        { "IconInfos", JsonConvert.SerializeObject(selectedIconInfos) },
+                        { "IconInfos", JsonSerializer.Serialize(selectedIconInfos) },
                     }, message.Get("RequestID", (string)null));
                     break;
 

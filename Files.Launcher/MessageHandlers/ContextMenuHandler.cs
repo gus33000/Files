@@ -1,6 +1,6 @@
 ﻿using Files.Common;
 using FilesFullTrust.Helpers;
-using Newtonsoft.Json;
+using System.Text.Json;
 using System;
 using System.Collections.Generic;
 using System.IO.Pipes;
@@ -35,7 +35,7 @@ namespace FilesFullTrust.MessageHandlers
                     var loadThreadWithMessageQueue = new ThreadWithMessageQueue<Dictionary<string, object>>(HandleMenuMessage);
                     var cMenuLoad = await loadThreadWithMessageQueue.PostMessageAsync<ContextMenu>(message);
                     contextMenuResponse.Add("Handle", handleTable.AddValue(loadThreadWithMessageQueue));
-                    contextMenuResponse.Add("ContextMenu", JsonConvert.SerializeObject(cMenuLoad));
+                    contextMenuResponse.Add("ContextMenu", JsonSerializer.Serialize(cMenuLoad));
                     await Win32API.SendMessageAsync(connection, contextMenuResponse, message.Get("RequestID", (string)null));
                     break;
 
@@ -66,13 +66,13 @@ namespace FilesFullTrust.MessageHandlers
 
                 case "GetNewContextMenuEntries":
                     var entries = await Extensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntries(), Program.Logger);
-                    await Win32API.SendMessageAsync(connection, new ValueSet() { { "Entries", JsonConvert.SerializeObject(entries) } }, message.Get("RequestID", (string)null));
+                    await Win32API.SendMessageAsync(connection, new ValueSet() { { "Entries", JsonSerializer.Serialize(entries) } }, message.Get("RequestID", (string)null));
                     break;
 
                 case "GetNewContextMenuEntryForType":
                     var fileExtension = (string)message["extension"];
                     var entry = await Extensions.IgnoreExceptions(() => ShellNewMenuHelper.GetNewContextMenuEntryForType(fileExtension), Program.Logger);
-                    await Win32API.SendMessageAsync(connection, new ValueSet() { { "Entry", JsonConvert.SerializeObject(entry) } }, message.Get("RequestID", (string)null));
+                    await Win32API.SendMessageAsync(connection, new ValueSet() { { "Entry", JsonSerializer.Serialize(entry) } }, message.Get("RequestID", (string)null));
                     break;
             }
         }
